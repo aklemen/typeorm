@@ -132,7 +132,7 @@ describe("relations > multiple-primary-keys > one-to-many", () => {
             }),
         ))
 
-    it("should correctly load relation items with query relationLoadStrategy", () =>
+    it("should correctly load relation items with 'query' relationLoadStrategy", () =>
         Promise.all(
             connections.map(async (connection) => {
                 await insertSimpleTestData(connection)
