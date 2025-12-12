@@ -131,4 +131,22 @@ describe("relations > multiple-primary-keys > one-to-many", () => {
                 expect(settings!.length).to.equal(0)
             }),
         ))
+
+    it("should correctly load relation items with query relationLoadStrategy", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await insertSimpleTestData(connection)
+
+                const [user] = await connection.getRepository(User).find({
+                    relations: { settings: true },
+                    relationLoadStrategy: "query",
+                })
+
+                expect(user!).not.to.be.undefined
+                expect(user!.settings).to.be.an("array")
+                expect(user!.settings!.length).to.equal(2)
+                expect(user!.settings![0].name).to.be.oneOf(["A", "B"])
+                expect(user!.settings![1].name).to.be.oneOf(["A", "B"])
+            }),
+        ))
 })
